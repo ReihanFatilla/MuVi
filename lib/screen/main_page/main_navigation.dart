@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/screen/main_page/saved_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_screen.dart';
 
 class MainPage extends StatefulWidget {
 
-  final String username;
-
-  const MainPage({ Key? key, required this.username }) : super(key: key);
+  const MainPage({ Key? key }) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -15,6 +14,21 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  late SharedPreferences logindata;
+  late String username;
+
+  void initState() {
+    super.initState();
+    initial();
+  }
+  
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      username = logindata.getString('username')!;
+    });
+  }
 
   int _currentIndex = 0;
 
@@ -34,7 +48,17 @@ class _MainPageState extends State<MainPage> {
               borderRadius: BorderRadius.circular(20),
               child: Image.asset("images/img_profile.png", fit: BoxFit.cover)),
           ),
-          title: Text("Hi ${widget.username}!", style: TextStyle(fontSize: 20, color: Colors.black),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search_sharp, size: 25, color: Colors.black87,),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.logout, size: 20, color: Colors.black87),
+              onPressed: () {},
+            ),
+          ],
+          title: Text("Hi $username!", style: TextStyle(fontSize: 20, color: Colors.black),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,

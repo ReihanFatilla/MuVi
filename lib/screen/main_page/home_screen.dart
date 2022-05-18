@@ -18,26 +18,8 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search, color: Colors.grey,),
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 15,),
               Text(
                 "Trending",
-                
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -57,23 +39,34 @@ class HomeScreen extends StatelessWidget {
                     aspectRatio: 5.0,
                   ),
                   itemBuilder: (context, i, id){
-                    Movie dataRecipe = MovieData[i];
+                    Movie dataMovie = MovieData[i];
                     return GestureDetector(
                       child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                           border: Border.all(color: Colors.white,)
                       ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.network(
-                            dataRecipe.imageUrls,
-                          width: 500,
-                          fit: BoxFit.cover,
+                        child: Hero(
+                          tag: dataMovie.imageUrls,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              dataMovie.imageUrls,
+                            width: 500,
+                            fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                       onTap: (){
+                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DetailScreen(
+                                            movieFromHome: dataMovie,
+                                          ),
+                                        ),
+                                      );  
                       },
                     );
                   },

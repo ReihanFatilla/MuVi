@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:recipeapp/screen/main_page/home_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'main_page/main_navigation.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({ Key? key }) : super(key: key);
-
   @override
   State<InputScreen> createState() => _InputScreenState();
 }
 
 class _InputScreenState extends State<InputScreen> {
 
+  late SharedPreferences logindata;
+  late bool loginStatus;
+
   TextEditingController textFieldController = TextEditingController();
   String errorMessage = "";
+
+  void initState() {
+    super.initState();
+    check_if_already_login();
+  }
+
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+    loginStatus = (logindata.getBool('isLogin') ?? false);
+    if (loginStatus == true) {
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => MainPage()));
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -51,22 +66,19 @@ class _InputScreenState extends State<InputScreen> {
               color: Colors.blue,
               child: const Text('Confirm', style: TextStyle(color: Colors.white, fontFamily: "poppins"),),
               onPressed: () {
-                checkIfNameIsEmpty();
+                String username = textFieldController.text;
+                if (username != '') {
+                  logindata.setBool('isLogin', true);
+                  logindata.setString('username', username);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MainPage()));
+              }
               },
             ),
           ],
         ),
       ),
     );
-  }
-  // get the text in the TextField and start the Second Screen
-  void _sendDataToHomeScreen(BuildContext context) {
-    String inputName = textFieldController.text;
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainPage(username: inputName)),
-        );
   }
 
   void checkIfNameIsEmpty() {
@@ -75,7 +87,11 @@ class _InputScreenState extends State<InputScreen> {
         errorMessage = "Please enter your name";
       });
     } else {
-      _sendDataToHomeScreen(context);
+      logindata.setBool('isLogin', true);
+      String username = textFieldController.text;
+                  logindata.setString('username', username);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MainPage()));
     }
   }
 }
