@@ -5,16 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
 
 class MainPage extends StatefulWidget {
-
-  const MainPage({ Key? key }) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
-  
 }
 
 class _MainPageState extends State<MainPage> {
-
   late SharedPreferences logindata;
   late String username;
 
@@ -22,7 +19,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     initial();
   }
-  
+
   void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
@@ -32,36 +29,39 @@ class _MainPageState extends State<MainPage> {
 
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
-    HomeScreen(),
-    SavedScreen()
-  ];
+  final List<Widget> _children = [HomeScreen(), SavedScreen()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: Container(
-            width: 10,
-            margin: EdgeInsets.all(10.0),
-            child: ClipRRect(
+        leading: Container(
+          width: 10,
+          margin: EdgeInsets.all(10.0),
+          child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.asset("images/img_profile.png", fit: BoxFit.cover)),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search_sharp, size: 25, color: Colors.black87,),
-              onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.search_sharp,
+              size: 25,
+              color: Colors.black87,
             ),
-            IconButton(
-              icon: Icon(Icons.logout, size: 20, color: Colors.black87),
-              onPressed: () {},
-            ),
-          ],
-          title: Text("Hi $username!", style: TextStyle(fontSize: 20, color: Colors.black),
+            onPressed: () {},
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+          IconButton(
+            icon: Icon(Icons.logout, size: 20, color: Colors.black87),
+            onPressed: () {},
+          ),
+        ],
+        title: Text(
+          "Hi Reihan!",
+          style: TextStyle(fontSize: 20, color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -84,7 +84,6 @@ class _MainPageState extends State<MainPage> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
-    }); 
+    });
   }
-  
 }

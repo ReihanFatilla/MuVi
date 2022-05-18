@@ -3,13 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'main_page/main_navigation.dart';
 
 class InputScreen extends StatefulWidget {
-  const InputScreen({ Key? key }) : super(key: key);
+  const InputScreen({Key? key}) : super(key: key);
   @override
   State<InputScreen> createState() => _InputScreenState();
 }
 
 class _InputScreenState extends State<InputScreen> {
-
   late SharedPreferences logindata;
   late bool loginStatus;
 
@@ -29,7 +28,7 @@ class _InputScreenState extends State<InputScreen> {
           context, new MaterialPageRoute(builder: (context) => MainPage()));
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,32 +38,34 @@ class _InputScreenState extends State<InputScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset('images/img_profile.png', height: 200,),
+            Image.asset(
+              'images/img_profile.png',
+              height: 200,
+            ),
             SizedBox(height: 50),
             TextField(
               controller: textFieldController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10)
-                ),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Enter Your Name',
                 labelStyle: TextStyle(fontFamily: "poppins"),
-
               ),
             ),
-            Text(errorMessage,
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12,
-              fontFamily: "poppins"
-            ),),
+            Text(
+              errorMessage,
+              style: TextStyle(
+                  color: Colors.red, fontSize: 12, fontFamily: "poppins"),
+            ),
             SizedBox(height: 20),
             MaterialButton(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7)
-              ),
+                  borderRadius: BorderRadius.circular(7)),
               color: Colors.blue,
-              child: const Text('Confirm', style: TextStyle(color: Colors.white, fontFamily: "poppins"),),
+              child: const Text(
+                'Confirm',
+                style: TextStyle(color: Colors.white, fontFamily: "poppins"),
+              ),
               onPressed: () {
                 String username = textFieldController.text;
                 if (username != '') {
@@ -72,7 +73,7 @@ class _InputScreenState extends State<InputScreen> {
                   logindata.setString('username', username);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MainPage()));
-              }
+                }
               },
             ),
           ],
@@ -89,9 +90,9 @@ class _InputScreenState extends State<InputScreen> {
     } else {
       logindata.setBool('isLogin', true);
       String username = textFieldController.text;
-                  logindata.setString('username', username);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainPage()));
+      logindata.setString('username', username);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainPage()));
     }
   }
 }
