@@ -38,14 +38,20 @@ class _InputScreenState extends State<InputScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset(
-              'images/img_profile.png',
-              height: 200,
+            Text(
+              "MuVi",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 100,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 120),
             TextField(
               controller: textFieldController,
               decoration: InputDecoration(
+                focusColor: Colors.black,
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Enter Your Name',
