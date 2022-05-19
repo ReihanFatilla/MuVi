@@ -1,17 +1,24 @@
 class Movie{
   String title;
-  String director;
-  String age;
+  String released;
+  String rating;
   String desc;
   String imageUrls;
 
   Movie({
     required this.title,
     required this.desc,
-    required this.age,
-    required this.director,
+    required this.rating,
+    required this.released,
     required this.imageUrls,
 });
+factory Movie.fromJson(Map<String, dynamic> json) => Movie(
+    title: json["title"] ?? 'Si paling paling',
+    desc: json["overview"] ?? 'Cerita tentang si yang paling paling',
+    imageUrls: json["poster_path"] ?? '/neMZH82Stu91d3iqvLdNQfqPPyl.jpg',
+    released: json["release_date"] ?? '2020-03-24',
+    rating: json["vote_average"] ?? '7.8',
+  );
 }
 
 var MovieData = [
