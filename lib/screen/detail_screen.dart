@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipeapp/helper/utils.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:recipeapp/screen/image_vew_screen.dart';
 import 'package:recipeapp/screen/main_page/home_screen.dart';
@@ -9,6 +10,9 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+ String reversedDate = movieFromHome.released.split("-").reversed.join("-").replaceAll("-", " ");
+ String formattedDate = reversedDate.replaceAll(reversedDate[3]+reversedDate[4], HelperFunction.stringToMonth(reversedDate[3]+reversedDate[4]));
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -75,7 +79,9 @@ class DetailScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            movieFromHome.released,
+
+                            
+                            formattedDate,
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.normal,

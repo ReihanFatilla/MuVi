@@ -12,17 +12,17 @@ class ImageViewScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Hero(
-              tag: detailImage.poster_path,
-              child: Container(
-                color: Colors.black,
+          Container(
+            color: Colors.black,
+            child: Hero(
+                tag: detailImage.poster_path,
                 child: Image.network(
                     "https://www.themoviedb.org/t/p/w1280" +
                         detailImage.poster_path,
                     height: double.infinity,
                     width: double.infinity,
-                    fit: BoxFit.contain),
-              )),
+                    fit: BoxFit.contain)),
+          ),
           Positioned(
             top: 0,
             left: 0,
