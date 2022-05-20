@@ -40,7 +40,7 @@ class DetailScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Hero(
-                  tag: movieFromHome.imageUrls,
+                  tag: movieFromHome.poster_path,
                   child: GestureDetector(
                     onTap: () => Navigator.push(
                       context,
@@ -52,7 +52,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.network(movieFromHome.imageUrls,
+                        child: Image.network("https://www.themoviedb.org/t/p/w1280"+movieFromHome.poster_path,
                             height: 250,
                             width: double.infinity,
                             fit: BoxFit.cover)),
@@ -75,7 +75,7 @@ class DetailScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            movieFromHome.director,
+                            movieFromHome.released,
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.normal,
@@ -84,20 +84,38 @@ class DetailScreen extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        color: Colors.black,
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Text(
-                            movieFromHome.age,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          movieFromHome.rating.toString(),
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 19,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                     ]),
                 SizedBox(
                   height: 30,

@@ -51,7 +51,7 @@ class _SavedScreenState extends State<SavedScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.network(
-                      dataRecipe.imageUrls,
+                      dataRecipe.poster_path,
                       width: 500,
                       fit: BoxFit.cover,
                     ),

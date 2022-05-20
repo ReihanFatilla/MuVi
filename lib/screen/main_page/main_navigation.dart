@@ -15,17 +15,17 @@ class _MainPageState extends State<MainPage> {
   late SharedPreferences logindata;
   late String username;
 
-  void initState() {
-    super.initState();
-    initial();
-  }
+  // void initState() {
+  //   super.initState();
+  //   initial();
+  // }
 
-  void initial() async {
-    logindata = await SharedPreferences.getInstance();
-    setState(() {
-      username = logindata.getString('username')!;
-    });
-  }
+  // void initial() async {
+  //   logindata = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     username = logindata.getString('username')!;
+  //   });
+  // }
 
   int _currentIndex = 0;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/screen/login_screen.dart';
+import 'package:recipeapp/screen/main_page/main_navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Scaffold",
         primarySwatch: Colors.blue,
       ),
-      home: const InputScreen(),
+      home: const MainPage(),
     );
   }
 }

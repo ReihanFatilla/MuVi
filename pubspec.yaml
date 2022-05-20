@@ -37,6 +37,7 @@ dependencies:
   carousel_slider: ^4.1.1
   shared_preferences: ^2.0.15
   http: ^0.13.4
+  image_downloader: ^0.31.0
 
 dev_dependencies:
   flutter_test:
