@@ -10,9 +10,6 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- String reversedDate = movieFromHome.released.split("-").reversed.join("-").replaceAll("-", " ");
- String formattedDate = reversedDate.replaceAll(reversedDate[3]+reversedDate[4], HelperFunction.stringToMonth(reversedDate[3]+reversedDate[4]));
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -78,10 +75,8 @@ class DetailScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-
-                            
-                            formattedDate,
+                          Text(                            
+                            HelperFunction.formatMonth(movieFromHome.released),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.normal,

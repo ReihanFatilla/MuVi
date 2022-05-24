@@ -1,4 +1,10 @@
 class HelperFunction{
+
+  static String formatMonth(String month){
+    String reversedDate = month.split("-").reversed.join("-").replaceAll("-", " ");
+  return reversedDate.replaceAll(reversedDate[3]+reversedDate[4], HelperFunction.stringToMonth(reversedDate[3]+reversedDate[4]));
+  }
+  
   static String stringToMonth(String month){
     switch(month){
       case "01":
