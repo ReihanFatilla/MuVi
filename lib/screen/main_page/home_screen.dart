@@ -29,6 +29,9 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               FutureBuilder(
                   future: movie.getNowPlayingMovie(),
                   builder: (context, snapshot) => snapshot.data != null
@@ -68,12 +71,12 @@ class HomeScreen extends StatelessWidget {
 
   Widget _carouselMovie(List<Movie> movie) {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.only(top: 15, bottom: 15, ),
       child: CarouselSlider.builder(
         itemCount: movie.length,
         options: CarouselOptions(
           enlargeCenterPage: true,
-          height: 300,
+          height: 350,
           autoPlay: true,
           autoPlayInterval: Duration(seconds: 3),
           viewportFraction: 0.7,

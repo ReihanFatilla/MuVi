@@ -38,6 +38,8 @@ dependencies:
   shared_preferences: ^2.0.15
   http: ^0.13.4
   image_downloader: ^0.31.0
+  path_provider: ^2.0.10
+  sqflite: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

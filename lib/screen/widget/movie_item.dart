@@ -45,7 +45,7 @@ class MovieItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          Movie.rating.toString(),
+                          Movie.rating,
                           maxLines: 1,
                           style: TextStyle(
                             color: Colors.white,

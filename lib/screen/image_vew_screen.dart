@@ -66,8 +66,8 @@ class ImageViewScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                IconButton(onPressed: () async {
-                  await ImageDownloader.downloadImage("https://www.themoviedb.org/t/p/w1280"+detailImage.poster_path);
+                IconButton(onPressed: () {
+                  ImageDownloader.downloadImage("https://www.themoviedb.org/t/p/w1280"+detailImage.poster_path);
                 },
                 icon: Icon(
                   Icons.download,

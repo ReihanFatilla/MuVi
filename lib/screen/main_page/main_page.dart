@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipeapp/screen/main_page/saved_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,18 +16,6 @@ class _MainPageState extends State<MainPage> {
   late SharedPreferences logindata;
   late String username;
 
-  // void initState() {
-  //   super.initState();
-  //   initial();
-  // }
-
-  // void initial() async {
-  //   logindata = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     username = logindata.getString('username')!;
-  //   });
-  // }
-
   int _currentIndex = 0;
 
   final List<Widget> _children = [HomeScreen(), SavedScreen()];
@@ -40,7 +29,7 @@ class _MainPageState extends State<MainPage> {
           margin: EdgeInsets.all(10.0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset("images/img_profile.png", fit: BoxFit.cover)),
+              child: Image.asset("images/img_profile2.png", fit: BoxFit.cover)),
         ),
         actions: [
           IconButton(
@@ -53,7 +42,9 @@ class _MainPageState extends State<MainPage> {
           ),
           IconButton(
             icon: Icon(Icons.logout, size: 20, color: Colors.black87),
-            onPressed: () {},
+            onPressed: () {
+              SystemNavigator.pop();
+            },
           ),
         ],
         title: Text(

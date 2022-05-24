@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/helper/utils.dart';
+import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:recipeapp/screen/image_vew_screen.dart';
 import 'package:recipeapp/screen/main_page/home_screen.dart';
+import 'package:recipeapp/shared_pref/pref_helper.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final Movie movieFromHome;
   const DetailScreen({Key? key, required this.movieFromHome}) : super(key: key);
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,40 +29,66 @@ class DetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                        )),
-                    Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                            )),
+                        Text(
+                          "Back",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
+                    // make favorite button
+                    IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        addBookMark(
+                          widget.movieFromHome.title,
+                          widget.movieFromHome.desc,
+                          widget.movieFromHome.rating,
+                          widget.movieFromHome.released,
+                          widget.movieFromHome.poster_path,
+                          );
+                        setState(() {
+                          isFavorite = !isFavorite;
+                        });
+                      },
+                    )
                   ],
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Hero(
-                  tag: movieFromHome.poster_path,
+                  tag: widget.movieFromHome.poster_path,
                   child: GestureDetector(
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ImageViewScreen(
-                          detailImage: movieFromHome,
+                          detailImage: widget.movieFromHome,
                         ),
                       ),
                     ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network("https://www.themoviedb.org/t/p/w1280"+movieFromHome.poster_path,
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                            "https://www.themoviedb.org/t/p/w1280" +
+                                widget.movieFromHome.poster_path,
                             height: 250,
                             width: double.infinity,
                             fit: BoxFit.cover)),
@@ -69,14 +104,15 @@ class DetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            movieFromHome.title,
+                            widget.movieFromHome.title,
                             style: TextStyle(
                               fontSize: 23,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(                            
-                            HelperFunction.formatMonth(movieFromHome.released),
+                          Text(
+                            HelperFunction.formatMonth(
+                                widget.movieFromHome.released),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.normal,
@@ -85,38 +121,39 @@ class DetailScreen extends StatelessWidget {
                         ],
                       ),
                       Container(
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          movieFromHome.rating.toString(),
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                widget.movieFromHome.rating,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                                size: 19,
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                          size: 19,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
                     ]),
                 SizedBox(
                   height: 30,
@@ -124,16 +161,16 @@ class DetailScreen extends StatelessWidget {
                 Text(
                   "Description",
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                       color: Colors.grey),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 7,
                 ),
                 Text(
-                  movieFromHome.desc,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
+                  widget.movieFromHome.desc,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -142,4 +179,30 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
-}
+
+  void addBookMark(String title, String desc, String rating, String released, String poster_path) {
+    final newBookMark = BookmarkMovie(
+      title: title,
+      desc: desc,
+      rating: rating,
+      released: released,
+      poster_path: poster_path,
+    );
+
+    PreferenceHelper.clearBookmark();
+    PreferenceHelper.saveBookmark(title, desc, rating, released, poster_path);
+    var bmTitle = PreferenceHelper.getBookmark(title, desc, rating, released, poster_path);
+    print("Get Bookmark  title = "+ bmTitle.toString());
+    // prefs.saveBo(newBookMark);
+    // final bookMarkList = prefs.getBookMarkList();
+    // if (bookMarkList == null) {
+    //   final bookMarkList = List<BookmarkMovie>();
+    //   bookMarkList.add(bookMark);
+    //   prefs.setBookMarkList(bookMarkList);
+    // } else {
+    //   bookMarkList.add(bookMark);
+    //   prefs.setBookMarkList(bookMarkList);
+    }
+
+  }
+
