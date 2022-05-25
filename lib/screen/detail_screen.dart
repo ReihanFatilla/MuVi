@@ -4,7 +4,8 @@ import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:recipeapp/screen/image_vew_screen.dart';
 import 'package:recipeapp/screen/main_page/home_screen.dart';
-import 'package:recipeapp/shared_pref/pref_helper.dart';
+
+import '../sql/pref_helper.dart';
 
 class DetailScreen extends StatefulWidget {
   final Movie movieFromHome;
@@ -56,7 +57,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         color: Colors.red,
                       ),
                       onPressed: () {
-                        addBookMark(
+                        addWatchlist(
                           widget.movieFromHome.title,
                           widget.movieFromHome.desc,
                           widget.movieFromHome.rating,
@@ -180,29 +181,15 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  void addBookMark(String title, String desc, String rating, String released, String poster_path) {
-    final newBookMark = BookmarkMovie(
+  void addWatchlist(String title, String desc, String rating, String released, String poster_path) {
+    final prefs = PreferenceHelper();
+    final bookmark = Movie(
       title: title,
       desc: desc,
       rating: rating,
       released: released,
       poster_path: poster_path,
     );
-
-    PreferenceHelper.clearBookmark();
-    PreferenceHelper.saveBookmark(title, desc, rating, released, poster_path);
-    var bmTitle = PreferenceHelper.getBookmark(title, desc, rating, released, poster_path);
-    print("Get Bookmark  title = "+ bmTitle.toString());
-    // prefs.saveBo(newBookMark);
-    // final bookMarkList = prefs.getBookMarkList();
-    // if (bookMarkList == null) {
-    //   final bookMarkList = List<BookmarkMovie>();
-    //   bookMarkList.add(bookMark);
-    //   prefs.setBookMarkList(bookMarkList);
-    // } else {
-    //   bookMarkList.add(bookMark);
-    //   prefs.setBookMarkList(bookMarkList);
-    }
-
+    prefs.addBookmark(bookmark);
   }
-
+}
