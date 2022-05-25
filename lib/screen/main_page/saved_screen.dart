@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeapp/model/boomark_movie.dart';
@@ -5,6 +7,7 @@ import 'package:recipeapp/screen/detail_screen.dart';
 import 'package:recipeapp/service/service.dart';
 import 'package:recipeapp/sql/pref_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../../model/movie.dart';
 
@@ -18,7 +21,7 @@ class SavedScreen extends StatefulWidget {
 class _SavedScreenState extends State<SavedScreen> {
   var movieApi = MovieApi();
 
-  late Movie movie;
+  // late Movie movie;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,6 @@ class _SavedScreenState extends State<SavedScreen> {
                   Movie.decode(undecodedMoviewatchlist!);
 
 
-
               return SizedBox(
                 child: Container(
                   margin: EdgeInsets.all(15),
@@ -63,22 +65,44 @@ class _SavedScreenState extends State<SavedScreen> {
                       aspectRatio: 5.0,
                     ),
                     itemBuilder: (context, i, id) {
-                      PreferenceHelper.clearBookmark();
+                      // PreferenceHelper.clearBookmark();
                       // Movie dataRecipe = MovieData[i];
 
-                      Future<List> _futureOfList =
-                          movieApi.getNowPlayingMovie();
+                      // var cancelledFutureList = movieApi.getNowPlayingMovie();
+                      // cancelledFutureList.cancel();
+
+
+                      // // convert future list into future
+                      // var futureList = movieApi.getNowPlayingMovie();
+                      // // Cancelable post
+                      // var cancelledFutureList = movieApi.getNowPlayingMovie();
+
+
+                      // var future = Future.value(futureList);
+
+                      
+
+                      // Future<List> _futureOfList =
+                      //     movieApi.getNowPlayingMovie();
                           // print(_futureOfList.runtimeType);
                           // print(_futureOfList as List<dynamic>);
 
-                      List listMovie = _futureOfList as List;
-                      print(listMovie.runtimeType);
+                      // List listMovie = future as List<Movie>;
 
-                      var movieData = movieWatchlist;
+                      // print(listMovie.runtimeType);
+
+                      
+
+                      // var response  http.get(Uri.parse("https://api.themoviedb.org/3/movie/now_playing?api_key=cc624f824bf4aae323fb0cc15680e65c"));
+                      // var data = jsonDecode(response.body);
+                      // var result = data["results"] as List;
+                      // var listMoviee = result.map((json) => Movie.fromJson(json)).toList();
+
+
+                      // var movieData = movieWatchlist;
 
                       // final Movie movie = listMovie.firstWhere(
                       //     (book) => book.title == movieWatchlist[i].title);
-
 
                       return GestureDetector(
                         child: Padding(
@@ -103,9 +127,9 @@ class _SavedScreenState extends State<SavedScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(14),
                                     child: Hero(
-                                      tag: movie.poster_path,
+                                      tag: movieWatchlist[i].poster_path,
                                       child: Image.network(
-                                        movie.poster_path,
+                                        "https://www.themoviedb.org/t/p/w1280"+movieWatchlist[i].poster_path,
                                         height: double.infinity,
                                         width: double.infinity,
                                         fit: BoxFit.cover,
@@ -117,7 +141,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   height: 12,
                                 ),
                                 Text(
-                                  movie.title,
+                                  movieWatchlist[i].title,
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -131,7 +155,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: Text(
-                                    movie.desc,
+                                    movieWatchlist[i].desc,
                                     style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
@@ -161,7 +185,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          movie.rating,
+                                          movieWatchlist[i].rating,
                                           maxLines: 1,
                                           style: TextStyle(
                                             color: Colors.white,
@@ -190,7 +214,7 @@ class _SavedScreenState extends State<SavedScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailScreen(
-                                movieFromHome: movie,
+                                movieFromHome: movieWatchlist[i],
                               ),
                             ),
                           );
