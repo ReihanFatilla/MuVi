@@ -21,6 +21,7 @@ class PreferenceHelper{
       previousData.add(selectedBook);
       prefs.setString('movie_key', Movie.encode(previousData));
     }
+    print(previousDataString);
   }
 
   // Get Bookmark

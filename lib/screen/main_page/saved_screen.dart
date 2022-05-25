@@ -16,10 +16,9 @@ class SavedScreen extends StatefulWidget {
 }
 
 class _SavedScreenState extends State<SavedScreen> {
-
   var movieApi = MovieApi();
 
-  late BookmarkMovie movie;
+  late Movie movie;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +38,15 @@ class _SavedScreenState extends State<SavedScreen> {
         child: FutureBuilder<SharedPreferences>(
             future: SharedPreferences.getInstance(),
             builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final SharedPreferences? prefs = snapshot.data;
+              final String? undecodedMoviewatchlist =
+                  prefs?.getString('movie_key');
 
-              final SharedPreferences? prefs = snapshot.data;
-            final String? undecodedMoviewatchlist = prefs?.getString('book_key');
+              final List<Movie> movieWatchlist =
+                  Movie.decode(undecodedMoviewatchlist!);
 
-            final List<BookmarkMovie> movieWatchlist = BookmarkMovie.decode(undecodedMoviewatchlist!);
+
 
               return SizedBox(
                 child: Container(
@@ -60,17 +63,24 @@ class _SavedScreenState extends State<SavedScreen> {
                       aspectRatio: 5.0,
                     ),
                     itemBuilder: (context, i, id) {
-                      Movie dataRecipe = MovieData[i];
-                      
-                      return FutureBuilder(
-                  future: movieApi.getNowPlayingMovie(),
-                  builder: (context, snapshot){
+                      PreferenceHelper.clearBookmark();
+                      // Movie dataRecipe = MovieData[i];
 
-                    List<BookmarkMovie> movieWL = snapshot.data;
-                    final BookmarkMovie MarkMovie = movieWL
-                    .firstWhere((movie) => movie.title == movieWatchlist[i].title);
+                      Future<List> _futureOfList =
+                          movieApi.getNowPlayingMovie();
+                          // print(_futureOfList.runtimeType);
+                          // print(_futureOfList as List<dynamic>);
 
-                    return GestureDetector(
+                      List listMovie = _futureOfList as List;
+                      print(listMovie.runtimeType);
+
+                      var movieData = movieWatchlist;
+
+                      // final Movie movie = listMovie.firstWhere(
+                      //     (book) => book.title == movieWatchlist[i].title);
+
+
+                      return GestureDetector(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Container(
@@ -93,9 +103,9 @@ class _SavedScreenState extends State<SavedScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(14),
                                     child: Hero(
-                                      tag: MarkMovie.title,
+                                      tag: movie.poster_path,
                                       child: Image.network(
-                                        dataRecipe.poster_path,
+                                        movie.poster_path,
                                         height: double.infinity,
                                         width: double.infinity,
                                         fit: BoxFit.cover,
@@ -107,7 +117,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   height: 12,
                                 ),
                                 Text(
-                                  dataRecipe.title,
+                                  movie.title,
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -121,7 +131,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: Text(
-                                    dataRecipe.desc,
+                                    movie.desc,
                                     style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
@@ -151,7 +161,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          dataRecipe.rating,
+                                          movie.rating,
                                           maxLines: 1,
                                           style: TextStyle(
                                             color: Colors.white,
@@ -180,22 +190,21 @@ class _SavedScreenState extends State<SavedScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailScreen(
-                                movieFromHome: dataRecipe,
+                                movieFromHome: movie,
                               ),
                             ),
                           );
                         },
                       );
-                  }
-                  
-                  snapshot.data != null
-                      ? _carouselMovie(snapshot.data as List<Movie>)
-                      : Center(child: CircularProgressIndicator())),
-                      
                     },
                   ),
                 ),
               );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             }),
       ),
     ]));
