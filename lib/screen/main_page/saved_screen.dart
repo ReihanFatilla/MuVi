@@ -73,6 +73,7 @@ class _SavedScreenState extends State<SavedScreen> {
                   aspectRatio: 5.0,
                 ),
           itemBuilder: (context, i, id) {
+            // print(listMovie[i].poster_path);
             // PreferenceHelper.clearBookmark();
             return GestureDetector(
               child: Padding(
@@ -99,7 +100,7 @@ class _SavedScreenState extends State<SavedScreen> {
                           child: Hero(
                             tag: listMovie[i].poster_path,
                             child: CachedNetworkImage(
-                              imageUrl: listMovie[i].poster_path,
+                              imageUrl: "https://www.themoviedb.org/t/p/w1280"+listMovie[i].poster_path,
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,

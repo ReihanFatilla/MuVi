@@ -21,7 +21,7 @@ class MovieItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: CachedNetworkImage(
-              imageUrl: Movie.poster_path,
+              imageUrl: "https://www.themoviedb.org/t/p/w1280"+Movie.poster_path,
               fit: BoxFit.cover,
               width: 500,
               placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),

@@ -12,20 +12,19 @@ import '../sql/pref_helper.dart';
 class DetailScreen extends StatefulWidget {
   final Movie movieFromHome;
   final String originNav;
-  const DetailScreen({Key? key, required this.movieFromHome, required this.originNav}) : super(key: key);
+  const DetailScreen(
+      {Key? key, required this.movieFromHome, required this.originNav})
+      : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-
   @override
   void initState() {
     super.initState();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -62,28 +61,30 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                     IconButton(
                         onPressed: () {
-                          if(widget.originNav == "saved"){
+                          print(widget.movieFromHome.poster_path);
+                          if (widget.originNav == "saved") {
                             removeWatchList(
                               widget.movieFromHome.title,
                             );
                           } else {
                             addWatchlist(
-                            widget.movieFromHome.title,
-                            widget.movieFromHome.desc,
-                            widget.movieFromHome.rating,
-                            widget.movieFromHome.released,
-                            widget.movieFromHome.poster_path,
-                          );
+                              widget.movieFromHome.title,
+                              widget.movieFromHome.desc,
+                              widget.movieFromHome.rating,
+                              widget.movieFromHome.released,
+                              widget.movieFromHome.poster_path,
+                            );
                           }
                         },
                         icon: widget.originNav == "saved"
-                        ? Icon(
-                          Icons.delete,
-                          color: Colors.black,
-                        ) : Icon(
-                          Icons.bookmark_add,
-                          color: Colors.black,
-                        )),
+                            ? Icon(
+                                Icons.delete,
+                                color: Colors.black,
+                              )
+                            : Icon(
+                                Icons.bookmark_add,
+                                color: Colors.black,
+                              )),
                   ],
                 ),
                 SizedBox(
@@ -101,15 +102,20 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-              imageUrl: widget.movieFromHome.poster_path,
-              fit: BoxFit.cover,
-              height: 250,
-              width: double.infinity,
-              placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),
-              errorWidget: (context, url, error) => new Icon(Icons.error),
-            ),),
+                      borderRadius: BorderRadius.circular(20),
+                      child: CachedNetworkImage(
+                        imageUrl: "https://www.themoviedb.org/t/p/w1280"+widget.movieFromHome.poster_path,
+                        fit: BoxFit.cover,
+                        height: 250,
+                        width: double.infinity,
+                        placeholder: (context, url) => Image.asset(
+                          "images/skeleton_image_loading.gif",
+                          fit: BoxFit.cover,
+                        ),
+                        errorWidget: (context, url, error) =>
+                            new Icon(Icons.error),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -118,25 +124,26 @@ class _DetailScreenState extends State<DetailScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.movieFromHome.title,
-                            style: TextStyle(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            HelperFunction.formatMonth(
-                                widget.movieFromHome.released),
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.grey),
-                          )
-                        ],
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.movieFromHome.title,
+                                style: TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.visible,),
+                            Text(
+                              HelperFunction.formatMonth(
+                                  widget.movieFromHome.released),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.grey),
+                            )
+                          ],
+                        ),
                       ),
                       Container(
                         width: 80,
@@ -235,6 +242,5 @@ class _DetailScreenState extends State<DetailScreen> {
     final index = decodedDb.indexWhere((element) => element.title == title);
     print(decodedDb[index].title);
     prefs.removeBookmark(index, context);
-
   }
 }

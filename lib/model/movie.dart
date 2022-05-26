@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class Movie {
-
   String title;
   String released;
   String rating;
@@ -18,7 +17,7 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
         title: json["title"] ?? json["name"],
         desc: json["overview"] ?? 'Cerita tentang si yang paling paling',
-        poster_path: "https://www.themoviedb.org/t/p/w1280"+json["poster_path"] ?? 'https://www.themoviedb.org/t/p/w1280/neMZH82Stu91d3iqvLdNQfqPPyl.jpg',
+        poster_path: json["poster_path"] ?? '',
         released: json["release_date"] ?? '2020-03-24',
         rating: json["vote_average"].toString() ?? "7.4",
       );
@@ -32,9 +31,7 @@ class Movie {
       };
 
   static String encode(List<Movie> movie) => json.encode(
-        movie
-            .map<Map<String, dynamic>>((movie) => Movie.toMap(movie))
-            .toList(),
+        movie.map<Map<String, dynamic>>((movie) => Movie.toMap(movie)).toList(),
       );
 
   static List<Movie> decode(String movie) =>
@@ -46,29 +43,23 @@ class Movie {
 List<Movie> MovieSkeletonData = [
   Movie(
       title: "-------",
-      desc:
-          "-------------------------------------------------",
+      desc: "-------------------------------------------------",
       released: "-- -- ----",
       rating: "-.-",
       poster_path:
-          "https://miro.medium.com/max/1360/1*oggxLUdueZBH5S8XN9kccg.gif"
-          ),
-          Movie(
+          ""),
+  Movie(
       title: "-------",
-      desc:
-          "-------------------------------------------------",
+      desc: "-------------------------------------------------",
       released: "-- -- ----",
       rating: "-.-",
       poster_path:
-          "https://miro.medium.com/max/1360/1*oggxLUdueZBH5S8XN9kccg.gif"
-          ),
-          Movie(
+          ""),
+  Movie(
       title: "-------",
-      desc:
-          "-------------------------------------------------",
+      desc: "-------------------------------------------------",
       released: "-- -- ----",
       rating: "-.-",
       poster_path:
-          "https://miro.medium.com/max/1360/1*oggxLUdueZBH5S8XN9kccg.gif"
-          )
+          "")
 ];

@@ -18,7 +18,7 @@ class ImageViewScreen extends StatelessWidget {
             child: Hero(
                 tag: detailImage.poster_path,
                 child: CachedNetworkImage(
-              imageUrl: detailImage.poster_path,
+              imageUrl: "https://www.themoviedb.org/t/p/w1280"+detailImage.poster_path,
               fit: BoxFit.contain,
               width: double.infinity,
               height: double.infinity,

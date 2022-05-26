@@ -27,8 +27,8 @@ class PreferenceHelper{
       previousData.add(selectedMovie);
       prefs.setString('movie_key', Movie.encode(previousData));
       ScaffoldMessenger.of(context).showSnackBar(HelperFunction.showMySnackBar(selectedMovie.title + " Bookmarked!"));
+      print(prefs.getString("movie_key"));
     }
-    print(previousDataString);
   }
 
   // Get Bookmark
