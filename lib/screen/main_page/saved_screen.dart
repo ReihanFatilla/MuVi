@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/screen/detail_screen.dart';
 import 'package:recipeapp/screen/widget/movie_item.dart';
 import 'package:recipeapp/service/service.dart';
