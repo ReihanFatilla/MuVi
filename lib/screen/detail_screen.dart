@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeapp/helper/utils.dart';
 import 'package:recipeapp/model/boomark_movie.dart';
@@ -9,7 +10,8 @@ import '../sql/pref_helper.dart';
 
 class DetailScreen extends StatefulWidget {
   final Movie movieFromHome;
-  const DetailScreen({Key? key, required this.movieFromHome}) : super(key: key);
+  final String originNav;
+  const DetailScreen({Key? key, required this.movieFromHome, required this.originNav}) : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -50,25 +52,24 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ],
                     ),
-                    // make favorite button
                     IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        addWatchlist(
-                          widget.movieFromHome.title,
-                          widget.movieFromHome.desc,
-                          widget.movieFromHome.rating,
-                          widget.movieFromHome.released,
-                          widget.movieFromHome.poster_path,
+                        onPressed: () {
+                          addWatchlist(
+                            widget.movieFromHome.title,
+                            widget.movieFromHome.desc,
+                            widget.movieFromHome.rating,
+                            widget.movieFromHome.released,
+                            widget.movieFromHome.poster_path,
                           );
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
-                      },
-                    )
+                        },
+                        icon: widget.originNav == "saved"
+                        ? Icon(
+                          Icons.delete,
+                          color: Colors.black,
+                        ) : Icon(
+                          Icons.bookmark_add,
+                          color: Colors.black,
+                        )),
                   ],
                 ),
                 SizedBox(
@@ -178,18 +179,32 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         ),
       ),
+      // floatingActionButton: SizedBox(
+      //   height: 40,
+      //   width: 40,
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //     },
+      //     backgroundColor: Colors.black,
+      //     child: const Icon(
+      //       Icons.bookmark,
+      //       size: 18,
+      //     ),
+      //   ),
+      // ));
     );
   }
 
-  void addWatchlist(String title, String desc, String rating, String released, String poster_path) {
+  void addWatchlist(String title, String desc, String rating, String released,
+      String poster_path) {
     final prefs = PreferenceHelper();
-    final bookmark = Movie(
+    final bookmarkedMovie = Movie(
       title: title,
       desc: desc,
       rating: rating,
       released: released,
       poster_path: poster_path,
     );
-    prefs.addBookmark(bookmark);
+    prefs.addBookmark(bookmarkedMovie, context);
   }
 }

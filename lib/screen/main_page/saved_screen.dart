@@ -45,28 +45,19 @@ class _SavedScreenState extends State<SavedScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var listMovie = snapshot.data as List<Movie>;
-                // var movie = listMovie[i]
-              // final String? undecodedMoviewatchlist =
-              //     prefs?.getString('movie_key');
-          
-              // final List<Movie> movieWatchlist =
-              //     Movie.decode(undecodedMoviewatchlist!);
-          
-          
-              return 
-        //       ListView.builder(
-        // itemBuilder: (context, index) => MovieItem(Movie: listMovie[index]),
-        // scrollDirection: Axis.vertical,
-        // shrinkWrap: true,
-        // physics: NeverScrollableScrollPhysics(),
-        // itemCount: listMovie.length);
-              
-              SizedBox(
+                print(listMovie.length);
+              return SizedBox(
                 child: Container(
                   margin: EdgeInsets.all(15),
                   child: CarouselSlider.builder(
                     itemCount: listMovie.length,
-                    options: CarouselOptions(
+                    options: listMovie.length <= 1 ? CarouselOptions(
+                      enlargeCenterPage: true,
+                      height: 450,
+                      enableInfiniteScroll: false,
+                      viewportFraction: 0.7,
+                      aspectRatio: 5.0,
+                    ) : CarouselOptions(
                       enlargeCenterPage: true,
                       height: 450,
                       autoPlay: true,
@@ -76,45 +67,7 @@ class _SavedScreenState extends State<SavedScreen> {
                       aspectRatio: 5.0,
                     ),
                     itemBuilder: (context, i, id) {
-                      PreferenceHelper.clearBookmark();
-                      // Movie dataRecipe = MovieData[i];
-          
-                      // var cancelledFutureList = movieApi.getNowPlayingMovie();
-                      // cancelledFutureList.cancel();
-          
-          
-                      // // convert future list into future
-                      // var futureList = movieApi.getNowPlayingMovie();
-                      // // Cancelable post
-                      // var cancelledFutureList = movieApi.getNowPlayingMovie();
-          
-          
-                      // var future = Future.value(futureList);
-          
-                      
-          
-                      // Future<List> _futureOfList =
-                      //     movieApi.getNowPlayingMovie();
-                          // print(_futureOfList.runtimeType);
-                          // print(_futureOfList as List<dynamic>);
-          
-                      // List listMovie = future as List<Movie>;
-          
-                      // print(listMovie.runtimeType);
-          
-                      
-          
-                      // var response  http.get(Uri.parse("https://api.themoviedb.org/3/movie/now_playing?api_key=cc624f824bf4aae323fb0cc15680e65c"));
-                      // var data = jsonDecode(response.body);
-                      // var result = data["results"] as List;
-                      // var listMoviee = result.map((json) => Movie.fromJson(json)).toList();
-          
-          
-                      // var movieData = movieWatchlist;
-          
-                      // final Movie movie = listMovie.firstWhere(
-                      //     (book) => book.title == movieWatchlist[i].title);
-          
+                      // PreferenceHelper.clearBookmark();
                       return GestureDetector(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
@@ -226,6 +179,7 @@ class _SavedScreenState extends State<SavedScreen> {
                             MaterialPageRoute(
                               builder: (context) => DetailScreen(
                                 movieFromHome: listMovie[i],
+                                originNav: "saved",
                               ),
                             ),
                           );

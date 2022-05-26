@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
-            label: 'Saved',
+            label: 'Bookmark',
           ),
         ],
       ),

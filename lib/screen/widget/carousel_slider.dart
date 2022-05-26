@@ -32,6 +32,7 @@ class MovieCarouselSlider extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => DetailScreen(
               movieFromHome: movie,
+              originNav: "home",
             ),
           ),
         );

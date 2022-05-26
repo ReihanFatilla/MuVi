@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:recipeapp/helper/utils.dart';
 import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,10 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferenceHelper{
 
   // Add Bookmark
-  void addBookmark(Movie selectedBook) async {
+  void addBookmark(Movie selectedBook, context ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String? previousDataString = prefs.getString('movie_key');
+
+    if(previousDataString.toString().contains(selectedBook.title.toString())){
+      ScaffoldMessenger.of(context).showSnackBar(HelperFunction.showMySnackBar(selectedBook.title + "Is Already in Watch List"));
+      return;
+    }
 
     List<Movie>? previousData =
         previousDataString == null ? null : Movie.decode(previousDataString);

@@ -1,4 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:recipeapp/model/movie.dart';
+
 class HelperFunction{
+
+  static SnackBar showMySnackBar(String message) {
+    return SnackBar(
+      content: Text(message),
+      backgroundColor: (Colors.black54),
+      duration: const Duration(seconds: 2),
+      behavior: SnackBarBehavior.floating,
+    );
+  }
 
   static String formatMonth(String month){
     String reversedDate = month.split("-").reversed.join("-").replaceAll("-", " ");

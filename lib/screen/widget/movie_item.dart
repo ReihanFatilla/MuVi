@@ -116,6 +116,7 @@ class MovieItem extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => DetailScreen(
                             movieFromHome: Movie,
+                            originNav: "home",
                           ),
                         ),
                       );
