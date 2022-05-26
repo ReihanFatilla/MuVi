@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeapp/helper/utils.dart';
-import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:recipeapp/screen/image_vew_screen.dart';
 import 'package:recipeapp/screen/main_page/home_screen.dart';
