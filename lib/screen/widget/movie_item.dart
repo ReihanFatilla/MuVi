@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../detail_screen.dart';
@@ -18,10 +19,13 @@ class MovieItem extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage("https://www.themoviedb.org/t/p/w1280${Movie.poster_path}"),
-                fit: BoxFit.cover,
-              ),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: Movie.poster_path,
+              fit: BoxFit.cover,
+              width: 500,
+              placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),
+              errorWidget: (context, url, error) => new Icon(Icons.error),
             ),
           ),
         ),

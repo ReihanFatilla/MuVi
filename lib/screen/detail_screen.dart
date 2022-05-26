@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeapp/helper/utils.dart';
@@ -19,7 +20,6 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-
 
   @override
   void initState() {
@@ -103,12 +103,14 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                            "https://www.themoviedb.org/t/p/w1280" +
-                                widget.movieFromHome.poster_path,
-                            height: 250,
-                            width: double.infinity,
-                            fit: BoxFit.cover)),
+                        child: CachedNetworkImage(
+              imageUrl: widget.movieFromHome.poster_path,
+              fit: BoxFit.cover,
+              height: 250,
+              width: double.infinity,
+              placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),
+              errorWidget: (context, url, error) => new Icon(Icons.error),
+            ),),
                   ),
                 ),
                 SizedBox(
@@ -187,7 +189,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 Text(
                   widget.movieFromHome.desc,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ],
             ),

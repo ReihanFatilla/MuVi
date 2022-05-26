@@ -36,12 +36,12 @@ class HomeScreen extends StatelessWidget {
                   future: movie.getNowPlayingMovie(),
                   builder: (context, snapshot) => snapshot.data != null
                       ? _carouselMovie(snapshot.data as List<Movie>)
-                      : Center(child: CircularProgressIndicator())),
+                      : _carouselMovie(MovieSkeletonData)),
               SizedBox(
                 height: 10,
               ),
               Text(
-                "Popular Movies",
+                "Today's Trending",
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   future: movie.getPopularMovie(),
                   builder: (context, snapshot) => snapshot.data != null
                       ? _listMovie(snapshot.data as List<Movie>)
-                      : Center(child: CircularProgressIndicator())),
+                      : _listMovie(MovieSkeletonData)),
             ],
           )),
     ));

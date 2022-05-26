@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:recipeapp/model/movie.dart';
@@ -16,12 +17,14 @@ class ImageViewScreen extends StatelessWidget {
             color: Colors.black,
             child: Hero(
                 tag: detailImage.poster_path,
-                child: Image.network(
-                    "https://www.themoviedb.org/t/p/w1280" +
-                        detailImage.poster_path,
-                    height: double.infinity,
-                    width: double.infinity,
-                    fit: BoxFit.contain)),
+                child: CachedNetworkImage(
+              imageUrl: detailImage.poster_path,
+              fit: BoxFit.contain,
+              width: double.infinity,
+              height: double.infinity,
+              placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),
+              errorWidget: (context, url, error) => new Icon(Icons.error),
+            ),),
           ),
           Positioned(
             top: 0,
@@ -67,7 +70,7 @@ class ImageViewScreen extends StatelessWidget {
                   ],
                 ),
                 IconButton(onPressed: () {
-                  ImageDownloader.downloadImage("https://www.themoviedb.org/t/p/w1280"+detailImage.poster_path);
+                  ImageDownloader.downloadImage(detailImage.poster_path);
                 },
                 icon: Icon(
                   Icons.download,
