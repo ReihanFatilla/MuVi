@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/screen/detail_screen.dart';
+import 'package:recipeapp/screen/widget/movie_item.dart';
 import 'package:recipeapp/service/service.dart';
 import 'package:recipeapp/sql/pref_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ class SavedScreen extends StatefulWidget {
 }
 
 class _SavedScreenState extends State<SavedScreen> {
+  var prefs = PreferenceHelper();
   var movieApi = MovieApi();
 
   // late Movie movie;
@@ -27,34 +29,43 @@ class _SavedScreenState extends State<SavedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Text(
+            const Text(
         "Your Watch List",
         style: TextStyle(
           fontSize: 23,
           fontWeight: FontWeight.bold,
         ),
-      ),
-      SizedBox(
+            ),
+            SizedBox(
         height: 40,
-      ),
-      Container(
-        child: FutureBuilder<SharedPreferences>(
-            future: SharedPreferences.getInstance(),
+            ),
+            Container(
+        child: FutureBuilder(
+            future: prefs.getBookmark(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final SharedPreferences? prefs = snapshot.data;
-              final String? undecodedMoviewatchlist =
-                  prefs?.getString('movie_key');
-
-              final List<Movie> movieWatchlist =
-                  Movie.decode(undecodedMoviewatchlist!);
-
-
-              return SizedBox(
+                var listMovie = snapshot.data as List<Movie>;
+                // var movie = listMovie[i]
+              // final String? undecodedMoviewatchlist =
+              //     prefs?.getString('movie_key');
+          
+              // final List<Movie> movieWatchlist =
+              //     Movie.decode(undecodedMoviewatchlist!);
+          
+          
+              return 
+        //       ListView.builder(
+        // itemBuilder: (context, index) => MovieItem(Movie: listMovie[index]),
+        // scrollDirection: Axis.vertical,
+        // shrinkWrap: true,
+        // physics: NeverScrollableScrollPhysics(),
+        // itemCount: listMovie.length);
+              
+              SizedBox(
                 child: Container(
                   margin: EdgeInsets.all(15),
                   child: CarouselSlider.builder(
-                    itemCount: MovieData.length,
+                    itemCount: listMovie.length,
                     options: CarouselOptions(
                       enlargeCenterPage: true,
                       height: 450,
@@ -65,45 +76,45 @@ class _SavedScreenState extends State<SavedScreen> {
                       aspectRatio: 5.0,
                     ),
                     itemBuilder: (context, i, id) {
-                      // PreferenceHelper.clearBookmark();
+                      PreferenceHelper.clearBookmark();
                       // Movie dataRecipe = MovieData[i];
-
+          
                       // var cancelledFutureList = movieApi.getNowPlayingMovie();
                       // cancelledFutureList.cancel();
-
-
+          
+          
                       // // convert future list into future
                       // var futureList = movieApi.getNowPlayingMovie();
                       // // Cancelable post
                       // var cancelledFutureList = movieApi.getNowPlayingMovie();
-
-
+          
+          
                       // var future = Future.value(futureList);
-
+          
                       
-
+          
                       // Future<List> _futureOfList =
                       //     movieApi.getNowPlayingMovie();
                           // print(_futureOfList.runtimeType);
                           // print(_futureOfList as List<dynamic>);
-
+          
                       // List listMovie = future as List<Movie>;
-
+          
                       // print(listMovie.runtimeType);
-
+          
                       
-
+          
                       // var response  http.get(Uri.parse("https://api.themoviedb.org/3/movie/now_playing?api_key=cc624f824bf4aae323fb0cc15680e65c"));
                       // var data = jsonDecode(response.body);
                       // var result = data["results"] as List;
                       // var listMoviee = result.map((json) => Movie.fromJson(json)).toList();
-
-
+          
+          
                       // var movieData = movieWatchlist;
-
+          
                       // final Movie movie = listMovie.firstWhere(
                       //     (book) => book.title == movieWatchlist[i].title);
-
+          
                       return GestureDetector(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
@@ -127,9 +138,9 @@ class _SavedScreenState extends State<SavedScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(14),
                                     child: Hero(
-                                      tag: movieWatchlist[i].poster_path,
+                                      tag: listMovie[i].poster_path,
                                       child: Image.network(
-                                        "https://www.themoviedb.org/t/p/w1280"+movieWatchlist[i].poster_path,
+                                        "https://www.themoviedb.org/t/p/w1280"+listMovie[i].poster_path,
                                         height: double.infinity,
                                         width: double.infinity,
                                         fit: BoxFit.cover,
@@ -141,7 +152,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   height: 12,
                                 ),
                                 Text(
-                                  movieWatchlist[i].title,
+                                  listMovie[i].title,
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -155,7 +166,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: Text(
-                                    movieWatchlist[i].desc,
+                                    listMovie[i].desc,
                                     style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
@@ -185,7 +196,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          movieWatchlist[i].rating,
+                                          listMovie[i].rating,
                                           maxLines: 1,
                                           style: TextStyle(
                                             color: Colors.white,
@@ -214,7 +225,7 @@ class _SavedScreenState extends State<SavedScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailScreen(
-                                movieFromHome: movieWatchlist[i],
+                                movieFromHome: listMovie[i],
                               ),
                             ),
                           );
@@ -230,7 +241,16 @@ class _SavedScreenState extends State<SavedScreen> {
                 );
               }
             }),
-      ),
-    ]));
+            ),
+          ]));
   }
+
+  // Widget _listMovie(List<Movie> movie) {
+  //   return ListView.builder(
+  //       itemBuilder: (context, index) => MovieItem(Movie: movie[index]),
+  //       scrollDirection: Axis.vertical,
+  //       shrinkWrap: true,
+  //       physics: NeverScrollableScrollPhysics(),
+  //       itemCount: movie.length);
+  // }
 }
