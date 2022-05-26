@@ -5,6 +5,7 @@ import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:recipeapp/screen/image_vew_screen.dart';
 import 'package:recipeapp/screen/main_page/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../sql/pref_helper.dart';
 
@@ -18,7 +19,15 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  bool isFavorite = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +63,19 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                     IconButton(
                         onPressed: () {
-                          addWatchlist(
+                          if(widget.originNav == "saved"){
+                            removeWatchList(
+                              widget.movieFromHome.title,
+                            );
+                          } else {
+                            addWatchlist(
                             widget.movieFromHome.title,
                             widget.movieFromHome.desc,
                             widget.movieFromHome.rating,
                             widget.movieFromHome.released,
                             widget.movieFromHome.poster_path,
                           );
+                          }
                         },
                         icon: widget.originNav == "saved"
                         ? Icon(
@@ -206,5 +221,19 @@ class _DetailScreenState extends State<DetailScreen> {
       poster_path: poster_path,
     );
     prefs.addBookmark(bookmarkedMovie, context);
+  }
+
+  void removeWatchList(String title) async {
+    final prefs = PreferenceHelper();
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    var databasePref = sharedPref.getString("movie_key");
+
+    var decodedDb = Movie.decode(databasePref!);
+
+    print(decodedDb);
+    final index = decodedDb.indexWhere((element) => element.title == title);
+    print(decodedDb[index].title);
+    prefs.removeBookmark(index, context);
+
   }
 }
