@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/helper/utils.dart';
-import 'package:recipeapp/model/boomark_movie.dart';
 import 'package:recipeapp/model/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
