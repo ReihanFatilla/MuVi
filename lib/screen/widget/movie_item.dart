@@ -17,15 +17,15 @@ class MovieItem extends StatelessWidget {
           flex: 4,
           child: Container(
             height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: CachedNetworkImage(
-              imageUrl: "https://www.themoviedb.org/t/p/w1280"+Movie.poster_path,
-              fit: BoxFit.cover,
-              width: 500,
-              placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),
-              errorWidget: (context, url, error) => new Icon(Icons.error),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: CachedNetworkImage(
+                imageUrl: "https://www.themoviedb.org/t/p/w1280"+Movie.poster_path,
+                fit: BoxFit.cover,
+                width: 500,
+                placeholder: (context, url) => Image.asset("images/skeleton_image_loading.gif", fit: BoxFit.cover,),
+                errorWidget: (context, url, error) => new Icon(Icons.error),
+              ),
             ),
           ),
         ),
@@ -77,7 +77,7 @@ class MovieItem extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -90,7 +90,7 @@ class MovieItem extends StatelessWidget {
                     Movie.desc,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                    style: TextStyle(fontSize: 13, color: Colors.grey),
                   ),
                 ),
                 SizedBox(
@@ -108,7 +108,7 @@ class MovieItem extends StatelessWidget {
                           "Read More",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 15,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
